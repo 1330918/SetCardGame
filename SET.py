@@ -95,9 +95,9 @@ class Deck:
         return comparison1, comparison2, comparison3
     
     def all_sets(deck_to_compare):
-        """Returns all possible SETs in the current twelve cards.
+        """Returns all possible SETS in the current twelve cards.
             > Arguments:
-                deck_to_compare -> the deck from which to search for SETs."""
+                deck_to_compare -> the deck from which to search for SETS."""
         comparison1, comparison2, comparison3 = Deck.comparison(deck_to_compare)
         SETlist = []
         
@@ -130,9 +130,9 @@ class Deck:
         return sets
         
     def one_set(deck_to_compare):
-        """Returns a single SET, randomly chosen from the possible SETs.
+        """Returns a single SET, randomly chosen from the possible SETS.
             > Arguments:
-                deck_to_compare -> the deck from which to search for SETs."""
+                deck_to_compare -> the deck from which to search for SETS."""
         sets = Deck.all_sets(deck_to_compare)
         if len(sets) > 0:
             nr = np.random.randint(len(sets))
@@ -220,7 +220,7 @@ class Game():
         # replace the removed used cards with the new cards
         for j in range(3):
             used_cards.insert(self.choice[j]-1, new_cards[j])
-        # find SETs within the new used cards deck
+        # find SETS within the new used cards deck
         self.sets = Deck.all_sets(used_cards)
         self.one_set = Deck.one_set(used_cards)
         
@@ -247,7 +247,7 @@ class Game():
         
         # empty the choice list and update the number of cards
         self.choice = []    
-        print(self.sets) ## OPTIONAL PRINT
+        # print(self.sets) ## OPTIONAL PRINT
         cards_left_label.update(f"Number of cards left: {len(cards)}")
         pg.display.update()
         
@@ -259,7 +259,7 @@ class Game():
         """This function marks the finished game and all processes are stopped.
            Updates the screen display with a win, lose or tie message."""
         game_finish_label.draw()
-        # a player wins the game if they have found more SETs than the computer
+        # a player wins the game if they have found more SETS than the computer
         if player_sets_found > computer_sets_found:
             lost_won = "WON"
         elif player_sets_found < computer_sets_found:
@@ -329,9 +329,9 @@ timer_event = pg.USEREVENT+1
 pg.time.set_timer(timer_event, 1000)
 
 # make all the labels that will be visible in the game
-player_sets_label = Label("Sets found: 0", (720,100), black, offwhite, "berlinsansfb", 20, (200,50))
-computer_sets_label = Label("Computer Sets: 0", (740,150), black, offwhite, "berlinsansfb", 20, (220,50))
-set_choice_label = Label("Your Set:", (730,250), black, white, "malgungothic", 26, (250,50), bold=True, underline=True)
+player_sets_label = Label("SETS found: 0", (720,100), black, offwhite, "berlinsansfb", 20, (200,50))
+computer_sets_label = Label("Computer SETS: 0", (740,150), black, offwhite, "berlinsansfb", 20, (220,50))
+set_choice_label = Label("Your SET:", (730,250), black, white, "malgungothic", 26, (250,50), bold=True, underline=True)
 wrong_choice_label = Label("INCORRECT SET", (790,300), black, red, "malgungothic", 24, (300,30))
 cards_left_label = Label(f"Number of cards left: {len(cards)-12}", (800,540), black, green, "candara", 18, (300,30),bold=True, italic=True)
 time_label = Label(str(time), (800,600), black, yellow, "berlinsansfb", 60, (120,110))
@@ -359,9 +359,9 @@ for n in range(12):
     
 pg.display.flip()
   
-# first SETs, optional print
-SETS = Deck.all_sets(used_cards)
-print(SETS)
+## first SETS, optional print
+# SETS = Deck.all_sets(used_cards)
+# print(SETS)
 
 # ----------
 # MAIN LOOP
@@ -393,7 +393,7 @@ while running:
                 # the computer wins a SET if the time reaches zero
                 if time == 0:
                     computer_sets_found += 1
-                    computer_sets_label.update(f"Computer Sets: {computer_sets_found}")
+                    computer_sets_label.update(f"Computer SETS: {computer_sets_found}")
                     # change cards and reset the timer
                     computer = Game(countdown = True)
                     computer.change_cards()
@@ -416,10 +416,10 @@ while running:
             # after having entered a SET
             if not input_active:
                 SET = []
-                SET.append(choice)                
+                SET.append(choice) 
                 
                 # condition to make sure the correct input is given
-                allowed_input = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', ',']
+                allowed_input = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', ',']
                 if all(x in allowed_input for x in SET[0]) and SET[0][-1] != ',':
                     S = [i.split(',') for i in SET][0]
                     if len(S) == 3:
@@ -435,7 +435,7 @@ while running:
                 if found_set:
                     time = timermax
                     player_sets_found += 1
-                    player_sets_label.update(f"Sets found: {player_sets_found}")
+                    player_sets_label.update(f"SETS found: {player_sets_found}")
                     player.change_cards()
                     # return to choosing a SET
                     input_active = True
@@ -445,7 +445,6 @@ while running:
                     wrong_choice_label.update("INCORRECT SET")
                     input_active = True
                 
-            set_choice_label.update(f"Your Set: {choice}")
+            set_choice_label.update(f"Your SET: {choice}")
             
         pg.display.flip()
-
